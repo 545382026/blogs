@@ -29,7 +29,8 @@ class Article(models.Model):
     auser = models.CharField(max_length=20, verbose_name='发布人')
     anum = models.IntegerField(default=0, verbose_name='阅读次数')
     alabel = models.ForeignKey(Lable,on_delete=models.CASCADE, verbose_name='标签外键')
-    acontent = models.TextField(verbose_name='文章内容')
+    acontent = models.TextField(verbose_name='文章摘要')
+    acontents = models.TextField(verbose_name='文章内容')
     objects = ArticleManager()
 
     def __str__(self):
