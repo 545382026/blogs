@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Article, Public, Kind, Lable
+import markdown
 # Create your views here.
 
 def index(request):
@@ -15,6 +16,21 @@ def index(request):
 
 def single(request, id):
     art = Article.objects.get(pk=id)
+    # 第一种直接利用Markdown 生成html
+    # art.acontents = markdown.markdown(art.acontents, extensions = [
+    #     'markdown.extensions.extra',
+    #     'markdown.extensions.codehilite',
+    #     'markdown.extensions.toc'
+    # ])
+    # 第二种
+    md = markdown.Markdown(extensions=[
+        'markdown.extensions.extra',
+        'markdown.extensions.codehilite',
+        'markdown.extensions.toc'
+    ])
+    art.acontents = md.convert(art.acontents)
+    art.toc = md.toc
+
     num = len(Article.objects.get(pk=id).public_set.all())
     kind = Kind.objects.all()[:3]
     arts = Article.objects.all()[:3]
