@@ -16,7 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
+from django.http import HttpResponse
+from haystack.views import SearchView
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url('articletest/', include('articletest.urls', namespace='articletest')),
+    # 全文检索路由
+    url('search/', SearchView(), name='search'),
 ]

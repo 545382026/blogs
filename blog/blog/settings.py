@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'articletest',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,14 @@ STATICFILES_DIRS = [
     ('css', os.path.join(STATIC_ROOT,'css')),
     ('js', os.path.join(STATIC_ROOT, 'js'))
 ]
+# 配置搜索引擎
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'articletest.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index')
+    }
+}
+# 配置搜索结果分页
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+# 配置索引实时更新
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
