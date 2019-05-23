@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import Article
 from django.core.paginator import Paginator
 import markdown
+from comments.forms import CommentForm
 # Create your views here.
 
 
@@ -9,17 +10,17 @@ def index(request):
     # 页码
     pagenum = request.GET.get('page')
     pagenum = 1 if pagenum==None else pagenum
-    print(pagenum, '__________________________')
+
 
     # 得到所有文章
     articles = Article.objects.all().order_by('-views')
-    print(articles, '++++++++++++++++++++++++++')
+
     # 每一页包含多少条信息
     paginator = Paginator(articles, 2)
-    print(paginator, '############################')
+
     # 传入页码得到一个页面 page包含所有信息
     page = paginator.get_page(pagenum)
-    print(page, '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
     return render(request, 'index.html', locals())
 
 
@@ -43,4 +44,19 @@ def single(request, aid):
     ])
     article.body = md.convert(article.body)
     article.toc = md.toc
+    cf = CommentForm()
     return render(request, 'single.html', locals())
+
+def archives(request, year, month):
+    # 页码
+    pagenum = request.GET.get('page')
+    pagenum = 1 if pagenum == None else pagenum
+    articles = Article.objects.filter(create_time__year=year,create_time__month=month)
+
+    # 每一页包含多少条信息
+    paginator = Paginator(articles, 2)
+
+    # 传入页码得到一个页面 page包含所有信息
+    page = paginator.get_page(pagenum)
+    return render(request,'index.html', locals())
+

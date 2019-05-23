@@ -3,5 +3,6 @@ from . import views
 app_name = 'blogsapp'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^single/(\d+)/$', views.single, name='single')
+    url(r'^single/(\d+)/$', views.single, name='single'),
+    url(r'^archives/(\d+)/(\d+)/$', views.archives, name='archives'),
 ]
