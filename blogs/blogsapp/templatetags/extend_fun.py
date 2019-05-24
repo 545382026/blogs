@@ -1,5 +1,5 @@
 from django import template
-from ..models import Article, Category, Tag
+from ..models import Article, Category, Tag, Ads
 
 register = template.Library()
 # 自定义过滤器
@@ -28,3 +28,7 @@ def all_lable():
 @register.simple_tag
 def getarchives(num=3):
     return Article.objects.dates('create_time', 'month', order='DESC')[:num]
+
+@register.simple_tag
+def getads():
+    return Ads.objects.all()
